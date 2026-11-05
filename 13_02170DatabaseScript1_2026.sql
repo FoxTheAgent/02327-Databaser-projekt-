@@ -56,7 +56,7 @@ CREATE TABLE Doctors
 (
 DoctorID VARCHAR(7),
 DepartmentName VARCHAR(20),
-Salary DECIMAL(7,2),
+Salary DECIMAL(9,2),
 Name VARCHAR(20) NOT NULL,
 PRIMARY KEY(DOCTORID),
 FOREIGN KEY(DepartmentName) REFERENCES Departments(DepartmentName) ON DELETE CASCADE
@@ -81,7 +81,7 @@ CREATE TABLE Departments
 (
 DepartmentName VARCHAR(20),
 Building ENUM('1', '2', '3', '4'), 
-Budget DECIMAL(10,2),
+Budget DECIMAL(11,2),
 PRIMARY KEY(DepartmentName)
 );
 
