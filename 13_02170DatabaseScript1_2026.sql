@@ -1,2 +1,10 @@
 DROP DATABASE IF EXISTS HOSPITAL;
 CREATE DATABASE HOSPITAL;
+
+
+
+
+-- Tables (4) -- 
+
+
+-- Tables Contents (5) --
