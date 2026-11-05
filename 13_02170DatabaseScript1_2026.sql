@@ -31,7 +31,7 @@ CREATE TABLE Prescriptions
 PatientID VARCHAR(10),
 MedicineID VARCHAR(5),
 MedicineName VARCHAR(20),
-Amount DECIMAL(10,0),
+Amount DECIMAL(5,0),
 PRIMARY KEY (PatientID, MedicineID),
 FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE
 );
