@@ -22,7 +22,7 @@ PRIMARY KEY (NurseID)
 CREATE TABLE Rooms 
 (
 RoomNR DECIMAL(3,0),
-Building ENUM('1', '2', '3', '4', '5', '6'), 
+Building ENUM('1', '2', '3', '4' ), 
 PRIMARY KEY (RoomNR, Building)
 );
 
@@ -43,7 +43,7 @@ Date  DATE,
 Time TIME,
 DoctorID VARCHAR(7),
 RoomNR DECIMAL(3,0),
-Building ENUM('1', '2', '3', '4', '5', '6'), 
+Building ENUM('1', '2', '3', '4'), 
 PRIMARY KEY(PatientID, Date, Time, DoctorID),
 FOREIGN KEY(PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE,
 FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE,
