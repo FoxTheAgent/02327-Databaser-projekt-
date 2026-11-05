@@ -1,9 +1,53 @@
+-- CREATE / DROP DATABASE --
 DROP DATABASE IF EXISTS HOSPITAL;
 CREATE DATABASE HOSPITAL;
 
+-- DROP METHODS --
+DROP TABLE IF EXISTS Doctors; 
+DROP TABLE IF EXISTS Nurses;
+DROP TABLE IF EXISTS Rooms;
+DROP TABLE IF EXISTS Prescriptions;
+DROP TABLE IF EXISTS Surgeries;
+DROP TABLE IF EXISTS Patients; 
+DROP TABLE IF EXISTS Departments; 
+-- TABLES (SECTION_4) -- 
+CREATE TABLE Nurses
+(
+NurseID   VARCHAR(6),
+Name  VARCHAR(20) NOT NULL,
+Salary DECIMAL(6,2),
+PRIMARY KEY (NurseID)
+);
 
+CREATE TABLE Rooms 
+(
+RoomNR DECIMAL(3,0),
+Building ENUM('1', '2', '3', '4', '5', '6'), 
+PRIMARY KEY (RoomNR, Building)
+);
 
--- Tables (4) -- 
+CREATE TABLE Prescriptions 
+(
+PatientID VARCHAR(10),
+MedicineID VARCHAR(5),
+MedicineName VARCHAR(20),
+Amount DECIMAL(10,0),
+PRIMARY KEY (PatientID, MedicineID),
+FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE
+);
 
-
--- Tables Contents (5) --
+CREATE TABLE Surgeries 
+(
+PatientID VARCHAR(10),
+Date  DATE,
+Time TIME,
+DoctorID VARCHAR(7),
+RoomNR DECIMAL(3,0),
+Building ENUM('1', '2', '3', '4', '5', '6'), 
+PRIMARY KEY(PatientID, Date, Time, DoctorID),
+FOREIGN KEY(PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON UPDATE CASCADE,
+FOREIGN KEY(RoomNR, Building) REFERENCES Rooms (RoomNR, Building) ON DELETE CASCADE
+);
+-- TABLES CONTENTS (SECTION_5) --
