@@ -3,7 +3,6 @@ CREATE DATABASE HOSPITAL;
 
 
 
-
 -- Tables (4) -- 
 
 
