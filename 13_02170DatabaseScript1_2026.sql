@@ -51,3 +51,39 @@ FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON UPDATE CASCADE,
 FOREIGN KEY(RoomNR, Building) REFERENCES Rooms (RoomNR, Building) ON DELETE CASCADE
 );
 -- TABLES CONTENTS (SECTION_5) --
+
+-- INSERT ______ VALUES (Value1, Value2.... ValueN); u can input more rows at the same time by just replacing ; with , --
+
+INSERT Nurses VALUES
+(),
+(),
+(),
+(),
+(),
+(),
+();
+
+INSERT Rooms VALUES
+(),
+(),
+(),
+(),
+(),
+(),
+(),
+(),
+(),
+();
+
+INSERT Prescriptions VALUES
+(),
+(),
+(),
+();
+
+
+INSERT Surgeries VALUES 
+(),
+(),
+(),
+();
