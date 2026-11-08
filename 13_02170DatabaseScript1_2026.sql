@@ -90,7 +90,11 @@ FOREIGN KEY(RoomNR, Building) REFERENCES Rooms(RoomNR, Building) ON DELETE CASCA
 
 -- TABLES CONTENTS (SECTION_5) --
 
-
+INSERT Departments (DepartmentName, Building, Budget)VALUES 
+('Kirurgisk Afdeling', '2', '200000000.00'),
+('Kardiologisk Afdeling', '1', '100000000.00'),
+('Ortopædkirurgisk Afdeling', '3', '150000000.00'),
+('Akutmodtagelsen', '4', '100000000.00');
 
 INSERT INTO Nurses (NurseID, Name, Salary) VALUES
 ('483921', 'Mikkel Sorensen', 31000.00),
@@ -113,19 +117,6 @@ INSERT INTO Rooms (RoomNR, Building) VALUES
 (410,4),
 (420,4);
 
-INSERT INTO Prescriptions (PatientID, MedicineID, MedicineName, Amount) VALUES
-('2038746159', '58321', 'Paracetamol', 3),
-('6702194385', '91746', 'Amoxicillin', 7),
-('1486372950', '26483', 'Metformin', 2),
-('2674819053', '67690', 'Ibuprofen', 3);
-
-
-INSERT INTO Surgeries (PatientID, Date, Time, DoctorID, RoomNR, Building) VALUES
-('9105738246', '2026-02-18', '16:30:00', '5837291', 230, 2),
-('2674819053', '2026-04-12', '12:20:00', '5837291', 210, 2),
-('8264057193', '2026-03-12', '23:59:59', '2765814', 220, 2),
-('9541863207', '2026-09-12', '00:01:00', '2765814', 240, 2);
-
 INSERT Doctors (DoctorID, DepartmentName, Salary, Name) VALUES
 ('5837291', 'Kirurgisk Afdeling', '650000.00', 'Valdemar Ravn'),
 ('9046172', 'Kardiologisk Afdeling', '720000.00', 'Maria Jensen'),
@@ -146,10 +137,22 @@ INSERT Patients (PatientID, RoomNR, DoctorID, NurseID, Name) VALUES
 ('9541863207', '240', '2765814', '957213', 'Oliver Sørensen'),
 ('2038746159', '310', '7382059', '195837', 'Clara Rasmussen	');
 
-INSERT Departments (DepartmentName, Building, Budget)VALUES 
-('Kirurgisk Afdeling', '2', '200000000.00'),
-('Kardiologisk Afdeling', '1', '100000000.00'),
-('Ortopædkirurgisk Afdeling', '3', '150000000.00'),
-('Akutmodtagelsen', '4', '100000000.00');
+INSERT INTO Prescriptions (PatientID, MedicineID, MedicineName, Amount) VALUES
+('2038746159', '58321', 'Paracetamol', 3),
+('6702194385', '91746', 'Amoxicillin', 7),
+('1486372950', '26483', 'Metformin', 2),
+('2674819053', '67690', 'Ibuprofen', 3);
+
+
+INSERT INTO Surgeries (PatientID, Date, Time, DoctorID, RoomNR, Building) VALUES
+('9105738246', '2026-02-18', '16:30:00', '5837291', 230, 2),
+('2674819053', '2026-04-12', '12:20:00', '5837291', 210, 2),
+('8264057193', '2026-03-12', '23:59:59', '2765814', 220, 2),
+('9541863207', '2026-09-12', '00:01:00', '2765814', 240, 2);
+
+
+
+
+
 
 
