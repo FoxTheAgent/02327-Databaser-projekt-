@@ -22,7 +22,7 @@ PRIMARY KEY (NurseID)
 
 CREATE TABLE Departments
 (
-DepartmentName VARCHAR(20),
+DepartmentName VARCHAR(30),
 Building ENUM('1', '2', '3', '4'), 
 Budget DECIMAL(11,2),
 PRIMARY KEY(DepartmentName)
@@ -39,7 +39,7 @@ PRIMARY KEY (RoomNR, Building)
 CREATE TABLE Doctors
 (
 DoctorID VARCHAR(7),
-DepartmentName VARCHAR(20),
+DepartmentName VARCHAR(30),
 Salary DECIMAL(9,2),
 Name VARCHAR(20) NOT NULL,
 PRIMARY KEY(DOCTORID),
@@ -126,28 +126,30 @@ INSERT INTO Surgeries (PatientID, Date, Time, DoctorID, RoomNR, Building) VALUES
 ('8264057193', '2026-03-12', '23:59:59', '2765814', 220, 2),
 ('9541863207', '2026-09-12', '00:01:00', '2765814', 240, 2);
 
-INSERT Doctors VALUES
-(),
-(),
-(),
-(),
-(),
-();
+INSERT Doctors (DoctorID, DepartmentName, Salary, Name) VALUES
+('5837291', 'Kirurgisk Afdeling', '650000.00', 'Valdemar Ravn'),
+('9046172', 'Kardiologisk Afdeling', '720000.00', 'Maria Jensen'),
+('2765814', 'Ortopædkirurgisk Afdeling', '1050000.00', 'Lucas Schneider'),
+('7382059', 'Kirurgisk Afdeling', '810000.00', 'Matteo Moretti'),
+('1459673', 'Akutmodtagelsen', '950000.00', 'Ahmed Al-Hassan'),
+('8214037', 'Akutmodtagelsen', '780000.00', 'Frej Anker');
 
-INSERT Patients VALUES
-(),
-(),
-(),
-(),
-(),
-(),
-(),
-(),
-(),
-();
+INSERT Patients (PatientID, RoomNR, DoctorID, NurseID, Name) VALUES
+('5847291630', '110', '2765814', '483921', 'Mads Jensen'),
+('9105738246', '230', '5837291', '726154', 'Emma Nielsen'),
+('2674819053', '210', '5837291', '726154', 'Sofie Hansen'),
+('7359201846', '120', '2765814', '483921', 'Magnus Møller'),
+('1486372950', '420', '9046172', '195837', 'William Andersen'),
+('8264057193', '220', '2765814', '842609', 'Freja Pedersen'),
+('3917582640', '410', '8214037', '614085', 'Lucas Christensen'),
+('6702194385', '320', '1459673', '361472', 'Laura Larsen'),
+('9541863207', '240', '2765814', '957213', 'Oliver Sørensen'),
+('2038746159', '310', '7382059', '195837', 'Clara Rasmussen	');
 
-INSERT Departments VALUES 
-(),
-(),
-(),
-();
+INSERT Departments (DepartmentName, Building, Budget)VALUES 
+('Kirurgisk Afdeling', '2', '200000000.00'),
+('Kardiologisk Afdeling', '1', '100000000.00'),
+('Ortopædkirurgisk Afdeling', '3', '150000000.00'),
+('Akutmodtagelsen', '4', '100000000.00');
+
+
