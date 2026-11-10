@@ -1,0 +1,249 @@
+-- CREATE / DROP DATABASE --
+DROP DATABASE IF EXISTS HOSPITAL;
+CREATE DATABASE HOSPITAL;
+USE HOSPITAL;
+
+-- DROP METHODS --
+DROP TABLE IF EXISTS Doctors; 
+DROP TABLE IF EXISTS Nurses;
+DROP TABLE IF EXISTS Rooms;
+DROP TABLE IF EXISTS Prescriptions;
+DROP TABLE IF EXISTS Surgeries;
+DROP TABLE IF EXISTS Patients; 
+DROP TABLE IF EXISTS Departments; 
+-- TABLES (SECTION_4) -- 
+CREATE TABLE Nurses
+(
+NurseID   VARCHAR(6),
+Name  VARCHAR(20) NOT NULL,
+Salary DECIMAL(8,2),
+PRIMARY KEY (NurseID)
+);
+
+CREATE TABLE Departments
+(
+DepartmentName VARCHAR(30),
+Building ENUM('1', '2', '3', '4'), 
+Budget DECIMAL(11,2),
+PRIMARY KEY(DepartmentName)
+);
+
+CREATE TABLE Rooms 
+(
+RoomNR DECIMAL(3,0),
+Building ENUM('1', '2', '3', '4' ), 
+PRIMARY KEY (RoomNR, Building)
+);
+
+
+CREATE TABLE Doctors
+(
+DoctorID VARCHAR(7),
+DepartmentName VARCHAR(30),
+Salary DECIMAL(9,2),
+Name VARCHAR(20) NOT NULL,
+PRIMARY KEY(DOCTORID),
+FOREIGN KEY(DepartmentName) REFERENCES Departments(DepartmentName) ON DELETE CASCADE
+
+); 
+
+CREATE TABLE Patients
+(
+PatientID VARCHAR(10),
+RoomNR DECIMAL(3,0),
+DoctorID VARCHAR(7),
+NurseID   VARCHAR(6),
+PatientName VARCHAR(20) NOT NULL,
+PRIMARY KEY(PatientID),
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE,
+FOREIGN KEY(NurseID) REFERENCES Nurses(NurseID) ON DELETE CASCADE,
+FOREIGN KEY(RoomNR) REFERENCES Rooms(RoomNR) ON DELETE CASCADE
+
+);
+
+CREATE TABLE Prescriptions 
+(
+PatientID VARCHAR(10),
+MedicineID VARCHAR(5),
+MedicineName VARCHAR(20),
+Amount DECIMAL(5,0),
+PRIMARY KEY (PatientID, MedicineID),
+FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE
+);
+
+CREATE TABLE Surgeries 
+(
+PatientID VARCHAR(10),
+Date  DATE,
+Time TIME,
+DoctorID VARCHAR(7),
+RoomNR DECIMAL(3,0),
+Building ENUM('1', '2', '3', '4'), 
+PRIMARY KEY(PatientID, Date, Time, DoctorID),
+FOREIGN KEY(PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON UPDATE CASCADE,
+FOREIGN KEY(RoomNR, Building) REFERENCES Rooms(RoomNR, Building) ON DELETE CASCADE
+);
+
+
+
+-- TABLES CONTENTS (SECTION_5) --
+
+INSERT Departments (DepartmentName, Building, Budget)VALUES 
+('Kirurgisk Afdeling', '2', '200000000.00'),
+('Kardiologisk Afdeling', '1', '100000000.00'),
+('Ortopædkirurgisk Afdeling', '3', '150000000.00'),
+('Akutmodtagelsen', '4', '100000000.00');
+
+INSERT INTO Nurses (NurseID, Name, Salary) VALUES
+('483921', 'Mikkel Sorensen', 310000.00),
+('726154', 'Anika Kowalska', 285300.00),
+('195837', 'Tobias Lindberg', 381000.00),
+('842609', 'Freja Nowak', 352500.00),
+('361472', 'Emil Petrov', 336700.00),
+('957213', 'Nadia Eriksson', 305210.00),
+('614085', 'Viktor Hansen', 365600.00);
+
+INSERT INTO Rooms (RoomNR, Building) VALUES
+(110,1),
+(120,1),
+(230,2),
+(210,2),
+(220,2),
+(240,2),
+(310,3),
+(320,3),
+(410,4),
+(420,4);
+
+INSERT Doctors (DoctorID, DepartmentName, Salary, Name) VALUES
+('5837291', 'Kirurgisk Afdeling', '650000.00', 'Valdemar Ravn'),
+('9046172', 'Kardiologisk Afdeling', '720000.00', 'Maria Jensen'),
+('2765814', 'Ortopædkirurgisk Afdeling', '1050000.00', 'Lucas Schneider'),
+('7382059', 'Kirurgisk Afdeling', '810000.00', 'Matteo Moretti'),
+('1459673', 'Akutmodtagelsen', '950000.00', 'Ahmed Al-Hassan'),
+('8214037', 'Akutmodtagelsen', '780000.00', 'Frej Anker');
+
+INSERT Patients (PatientID, RoomNR, DoctorID, NurseID, PatientName) VALUES
+('5847291630', '110', '2765814', '483921', 'Mads Jensen'),
+('9105738246', '230', '5837291', '726154', 'Emma Nielsen'),
+('2674819053', '210', '5837291', '726154', 'Sofie Hansen'),
+('7359201846', '120', '2765814', '483921', 'Magnus Møller'),
+('1486372950', '420', '9046172', '195837', 'William Andersen'),
+('8264057193', '220', '2765814', '842609', 'Freja Pedersen'),
+('3917582640', '410', '8214037', '614085', 'Lucas Christensen'),
+('6702194385', '320', '1459673', '361472', 'Laura Larsen'),
+('9541863207', '240', '2765814', '957213', 'Oliver Sørensen'),
+('2038746159', '310', '7382059', '195837', 'Clara Rasmussen	');
+
+INSERT INTO Prescriptions (PatientID, MedicineID, MedicineName, Amount) VALUES
+('2038746159', '58321', 'Paracetamol', 3),
+('6702194385', '91746', 'Amoxicillin', 7),
+('1486372950', '26483', 'Metformin', 2),
+('2674819053', '67690', 'Ibuprofen', 3);
+
+
+INSERT INTO Surgeries (PatientID, Date, Time, DoctorID, RoomNR, Building) VALUES
+('9105738246', '2026-02-18', '16:30:00', '5837291', 230, 2),
+('2674819053', '2026-04-12', '12:20:00', '5837291', 210, 2),
+('8264057193', '2026-03-12', '23:59:59', '2765814', 220, 2),
+('9541863207', '2026-09-12', '00:01:00', '2765814', 240, 2);
+
+
+
+#SELECT PatientID, PatientName, MedicineName FROM Patients NATURAL JOIN Prescriptions GROUP BY PatientID;
+	
+
+#SELECT DepartmentName, COUNT(DoctorID) FROM Departments NATURAL LEFT OUTER JOIN Doctors GROUP BY DepartmentName;
+
+#SELECT PatientID, PatientName FROM Patients WHERE PatientID NOT IN(SELECT PatientID FROM prescriptions) GROUP BY PatientID;
+	
+DELIMITER //
+CREATE FUNCTION PatientCountForNurse(vNurseName VARCHAR(20)) RETURNS INT
+BEGIN
+    DECLARE vPatientCount INT;
+    SELECT COUNT(p.PatientID)
+	INTO vPatientCount
+	FROM Nurses n
+	LEFT JOIN Patients p ON p.NurseID = n.NurseID
+	WHERE n.Name = vNurseName;
+
+    RETURN vPatientCount;
+END //
+DELIMITER ;
+
+
+SELECT Name AS NurseName,
+       PatientCountForNurse(Name) AS Patients
+FROM Nurses
+ORDER BY Patients DESC;
+
+DELIMITER //
+CREATE PROCEDURE AddPatient
+	(IN vPatientID VARCHAR(10), IN vRoomNR DECIMAL(3,0), IN vDoctorID VARCHAR(7), IN vNurseID VARCHAR(6), IN vPatientName VARCHAR(20))
+BEGIN
+	INSERT Patients(PatientID, RoomNR, DoctorID, NurseID, PatientName)
+		VALUES(vPatientID, vRoomNR, vDoctorID, vNurseID, vPatientName);
+END //
+DELIMITER ;
+
+CALL AddPatient('5768127387', '220', '1459673', '726154', 'Winson Churchull');
+SELECT * FROM Patients;
+
+
+DELIMITER //
+CREATE TRIGGER CheckPrescriptionAmount
+BEFORE INSERT ON Prescriptions 
+FOR EACH ROW
+BEGIN
+	IF NEW.Amount <= 0 THEN
+		SET New.Amount = 1;
+	END IF;
+END //
+DELIMITER ;
+
+
+INSERT INTO Prescriptions VALUES ('9105738246', '12345', 'Cyclophosphamide', '0');
+
+SELECT * FROM Prescriptions;
+
+UPDATE Patients SET PatientName = 'Winston Churchill' 
+	WHERE PatientID = '5768127387';
+    
+SELECT * FROM Patients;
+
+DELETE FROM Patients WHERE PatientID = '5768127387';
+
+SELECT * FROM Patients;
+
+
+CREATE USER 'Nurses'@'localhost'
+	IDENTIFIED BY '1234';
+    
+CREATE USER 'Reception'@'localhost'
+	IDENTIFIED BY '4321';
+    
+GRANT UPDATE (Amount) ON Hospital.Prescriptions TO 'Nurses'@'localhost';
+
+GRANT SELECT ON Hospital.* TO 'Reception'@'localhost';
+
+CREATE VIEW ReceptionPatients AS
+SELECT PatientID, PatientName, RoomNR, DoctorID
+FROM Patients;
+
+GRANT SELECT ON HOSPITAL.ReceptionPatients TO 'Reception'@'localhost';
+
+CREATE VIEW NursePatientDetails AS
+SELECT Patients.PatientID,
+       Patients.PatientName,
+       Patients.RoomNR,
+       Nurses.Name AS NurseName,
+       Prescriptions.MedicineName,
+       Prescriptions.Amount
+FROM Patients
+JOIN Nurses ON Nurses.NurseID = Patients.NurseID
+LEFT JOIN Prescriptions
+    ON Prescriptions.PatientID = Patients.PatientID;
+
+GRANT SELECT ON HOSPITAL.NursePatientDetails TO 'Nurses'@'localhost';
