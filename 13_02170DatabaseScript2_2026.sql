@@ -1,11 +1,22 @@
 
-#SELECT PatientID, PatientName, MedicineName FROM Patients NATURAL JOIN Prescriptions GROUP BY PatientID;
+#SELECT PatientID, Name, MedicineName FROM Patients NATURAL JOIN Prescriptions GROUP BY PatientID;
 	
 
 #SELECT DepartmentName, COUNT(DoctorID) FROM Departments NATURAL LEFT OUTER JOIN Doctors GROUP BY DepartmentName;
 
-#SELECT PatientID, PatientName FROM Patients WHERE PatientID NOT IN(SELECT PatientID FROM prescriptions) GROUP BY PatientID;
+
+#SELECT PatientID, Name FROM Patients WHERE PatientID NOT IN(SELECT PatientID FROM prescriptions) GROUP BY PatientID;
+-- USE OF THE MAIN DATABASE (REMEBER TO RUN DATABASE FILE FIRST BEFOE RUNNING THIS FILE --
 USE HOSPITAL;
+-- DROP METHODS --
+DROP FUNCTION IF EXISTS PatientCountForNurse;
+DROP PROCEDURE IF EXISTS AddPatient;
+DROP TRIGGER IF EXISTS CheckPrescriptionAmount; 
+DELETE FROM Patients WHERE PatientID = '5768127387';
+DELETE FROM prescriptions WHERE MedicineID = '12345';
+DROP USER IF EXISTS 'Nurses'@'localhost';
+DROP USER IF EXISTS 'Reception'@'localhost';
+
 -- Your queries below
 SELECT * FROM Patients;    
 DELIMITER //
@@ -30,10 +41,10 @@ ORDER BY Patients DESC;
 
 DELIMITER //
 CREATE PROCEDURE AddPatient
-	(IN vPatientID VARCHAR(10), IN vRoomNR DECIMAL(3,0), IN vDoctorID VARCHAR(7), IN vNurseID VARCHAR(6), IN vPatientName VARCHAR(20))
+	(IN vPatientID VARCHAR(10), IN vRoomNR DECIMAL(3,0), IN vDoctorID VARCHAR(7), IN vNurseID VARCHAR(6), IN vName VARCHAR(20))
 BEGIN
-	INSERT Patients(PatientID, RoomNR, DoctorID, NurseID, PatientName)
-		VALUES(vPatientID, vRoomNR, vDoctorID, vNurseID, vPatientName);
+	INSERT Patients(PatientID, RoomNR, DoctorID, NurseID, Name)
+		VALUES(vPatientID, vRoomNR, vDoctorID, vNurseID, vName);
 END //
 DELIMITER ;
 
@@ -57,7 +68,7 @@ INSERT INTO Prescriptions VALUES ('9105738246', '12345', 'Cyclophosphamide', '0'
 
 SELECT * FROM Prescriptions;
 
-UPDATE Patients SET PatientName = 'Winston Churchill' 
+UPDATE Patients SET Name = 'Winston Churchill' 
 	WHERE PatientID = '5768127387';
     
 SELECT * FROM Patients;
@@ -78,14 +89,14 @@ GRANT UPDATE (Amount) ON Hospital.Prescriptions TO 'Nurses'@'localhost';
 GRANT SELECT ON Hospital.* TO 'Reception'@'localhost';
 
 CREATE VIEW ReceptionPatients AS
-SELECT PatientID, PatientName, RoomNR, DoctorID
+SELECT PatientID, Name, RoomNR, DoctorID
 FROM Patients;
 
 GRANT SELECT ON HOSPITAL.ReceptionPatients TO 'Reception'@'localhost';
 
 CREATE VIEW NursePatientDetails AS
 SELECT Patients.PatientID,
-       Patients.PatientName,
+       Patients.Name,
        Patients.RoomNR,
        Nurses.Name AS NurseName,
        Prescriptions.MedicineName,
