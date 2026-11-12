@@ -55,9 +55,9 @@ DoctorID VARCHAR(7),
 NurseID   VARCHAR(6),
 Name VARCHAR(20) NOT NULL,
 PRIMARY KEY(PatientID),
-FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE,
-FOREIGN KEY(NurseID) REFERENCES Nurses(NurseID) ON DELETE CASCADE,
-FOREIGN KEY(RoomNR) REFERENCES Rooms(RoomNR) ON DELETE CASCADE
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID),
+FOREIGN KEY(NurseID) REFERENCES Nurses(NurseID),
+FOREIGN KEY(RoomNR) REFERENCES Rooms(RoomNR)
 
 );
 
@@ -81,8 +81,7 @@ RoomNR DECIMAL(3,0),
 Building ENUM('1', '2', '3', '4'), 
 PRIMARY KEY(PatientID, Date, Time, DoctorID),
 FOREIGN KEY(PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE,
-FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE,
-FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON UPDATE CASCADE,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY(RoomNR, Building) REFERENCES Rooms(RoomNR, Building) ON DELETE CASCADE
 );
 
@@ -96,7 +95,7 @@ INSERT Departments (DepartmentName, Building, Budget)VALUES
 ('Ortopædkirurgisk Afdeling', '3', '150000000.00'),
 ('Akutmodtagelsen', '4', '100000000.00');
 
-INSERT INTO Nurses (NurseID, Name, Salary) VALUES
+INSERT Nurses (NurseID, Name, Salary) VALUES
 ('483921', 'Mikkel Sorensen', 31000.00),
 ('726154', 'Anika Kowalska', 28530.00),
 ('195837', 'Tobias Lindberg', 38100.00),
@@ -105,7 +104,7 @@ INSERT INTO Nurses (NurseID, Name, Salary) VALUES
 ('957213', 'Nadia Eriksson', 30521.00),
 ('614085', 'Viktor Hansen', 36560.00);
 
-INSERT INTO Rooms (RoomNR, Building) VALUES
+INSERT Rooms (RoomNR, Building) VALUES
 (110,1),
 (120,1),
 (230,2),
@@ -137,14 +136,14 @@ INSERT Patients (PatientID, RoomNR, DoctorID, NurseID, Name) VALUES
 ('9541863207', '240', '2765814', '957213', 'Oliver Sørensen'),
 ('2038746159', '310', '7382059', '195837', 'Clara Rasmussen	');
 
-INSERT INTO Prescriptions (PatientID, MedicineID, MedicineName, Amount) VALUES
+INSERT Prescriptions (PatientID, MedicineID, MedicineName, Amount) VALUES
 ('2038746159', '58321', 'Paracetamol', 3),
 ('6702194385', '91746', 'Amoxicillin', 7),
 ('1486372950', '26483', 'Metformin', 2),
 ('2674819053', '67690', 'Ibuprofen', 3);
 
 
-INSERT INTO Surgeries (PatientID, Date, Time, DoctorID, RoomNR, Building) VALUES
+INSERT Surgeries (PatientID, Date, Time, DoctorID, RoomNR, Building) VALUES
 ('9105738246', '2026-02-18', '16:30:00', '5837291', 230, 2),
 ('2674819053', '2026-04-12', '12:20:00', '5837291', 210, 2),
 ('8264057193', '2026-03-12', '23:59:59', '2765814', 220, 2),
